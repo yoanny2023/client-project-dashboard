@@ -41,10 +41,10 @@ export default async function loginAction(_prevState:LoginState,formData: FormDa
 
     return {
       user: {
-        id: data.user.user.id,
-        name: data.user.user.name,
-        email: data.user.user.email,
-        role: data.user.user.role,
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        role: data.user.role,
     },
     };
   } catch (error) {
