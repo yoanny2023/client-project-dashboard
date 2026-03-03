@@ -6,7 +6,7 @@ export default class AuthController {
   static async login(req: Request,res: Response){
     
       const {email,password} = req.body
-      const user = await AuthService.login(email,password);
+      const {user, token} = await AuthService.login(email,password);
 
       res.cookie("token", token, {
        httpOnly: true,
