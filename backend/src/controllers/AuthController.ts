@@ -12,7 +12,8 @@ export default class AuthController {
        httpOnly: true,
        secure: true,    
        sameSite: "none",
-       path:"/"
+       path:"/",
+       domain: "client-project-dashboard.onrender.com",
       });
      
       return res.status(200).json({
