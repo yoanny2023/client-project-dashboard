@@ -10,8 +10,8 @@ export default class AuthController {
 
       res.cookie("token", token, {
        httpOnly: true,
-       secure: true,    
-       sameSite: "none", 
+       secure: false,    
+       sameSite: "lax", 
       });
      
       return res.status(200).json({

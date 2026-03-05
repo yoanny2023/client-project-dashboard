@@ -45,7 +45,7 @@ function Dashboard() {
 
   },[]);
 
-   if(loading) <Skeleton className="h-24 w-full" /> 
+   if(loading) return <Skeleton className="h-24 w-full" /> 
 
    return (
     <div className="p-6 space-y-6">

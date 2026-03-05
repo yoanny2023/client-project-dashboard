@@ -39,6 +39,21 @@ export default async function loginAction(_prevState:LoginState,formData: FormDa
       }
     }
 
+     const setCookieHeader = response.headers.get("set-cookie");
+
+     if (setCookieHeader) {
+      const token = setCookieHeader.split(";")[0].split("=")[1];
+
+      const cookieStore = await cookies();
+
+      cookieStore.set("token", token, {
+        httpOnly: true,
+        path: "/",
+        secure: true,
+        sameSite: "none",
+      });
+    }
+
     return {
       user: {
         id: data.user.id,
