@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com";
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com",
   withCredentials: true, 
 })
