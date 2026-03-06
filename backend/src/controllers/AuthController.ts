@@ -13,7 +13,6 @@ export default class AuthController {
        secure: true,    
        sameSite: "none",
        path:"/",
-       domain: "client-project-dashboard.onrender.com",
       });
      
       return res.status(200).json({
