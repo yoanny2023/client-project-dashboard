@@ -2,7 +2,7 @@ import { CreateClientResponse } from "@/types/Client/CreateClientResponse";
 import { DeleteClientResponse } from "@/types/Client/DeleteClientResponse";
 import { UpdateClientResponse } from "@/types/Client/UpdateClientResponse";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com";
 
 export async function getClients() {
   const res = await fetch(`${API_URL}/clients`, {

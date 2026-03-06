@@ -3,7 +3,7 @@ import { CreateProjectResponse } from "@/types/project/CreateProjectResponse";
 import { DeleteProjectResponse } from "@/types/project/DeleteProjectResponse";
 import { UpdateProjectResponse } from "@/types/project/UpdateProjectResponse";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com";;
 
 export async function getProjectsByClient(clientId:string):Promise<Project[]>{
 
