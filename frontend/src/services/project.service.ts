@@ -94,7 +94,7 @@ export async function deleteProject(clientId: string,projectId: string):Promise<
   
    const token = await getToken();
 
-  onst res = await fetch(`${API_URL}/clients/${clientId}/projects/${projectId}`,{
+   const res = await fetch(`${API_URL}/clients/${clientId}/projects/${projectId}`,{
       method: "DELETE",
       headers:{
         Cookie: `token=${token}`,  
