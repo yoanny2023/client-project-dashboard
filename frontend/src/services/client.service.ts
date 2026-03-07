@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { CreateClientResponse } from "@/types/Client/CreateClientResponse";
 import { DeleteClientResponse } from "@/types/Client/DeleteClientResponse";
 import { UpdateClientResponse } from "@/types/Client/UpdateClientResponse";
@@ -5,8 +6,13 @@ import { UpdateClientResponse } from "@/types/Client/UpdateClientResponse";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com";
 
 export async function getClients() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
   const res = await fetch(`${API_URL}/clients`, {
-    credentials: "include",
+    headers: {
+    Cookie: `token=${token}`,
+    },
   });
 
   if (!res.ok) throw new Error("Failed to fetch clients");
@@ -15,8 +21,13 @@ export async function getClients() {
 }
 
 export async function getClientById(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
   const res = await fetch(`${API_URL}/clients/${id}`, {
-    credentials: "include",
+      headers: {
+      Cookie: `token=${token}`,
+    },
   });
 
   if (!res.ok) throw new Error("Failed to fetch client");
@@ -28,11 +39,14 @@ export async function createClient(data: {
   name: string;
   email: string;
 }): Promise<CreateClientResponse> {
+   const cookieStore = await cookies();
+   const token = cookieStore.get("token")?.value;
+
   const res = await fetch(`${API_URL}/clients`, {
     method: "POST",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Cookie: `token=${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -47,11 +61,14 @@ export async function updateClient(
   id: string,
   data: { name: string; email: string }
 ):Promise<UpdateClientResponse> {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+  
   const res = await fetch(`${API_URL}/clients/${id}`, {
     method: "PUT",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+       Cookie: `token=${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -62,9 +79,14 @@ export async function updateClient(
 }
 
 export async function deleteClient(id: string):Promise<DeleteClientResponse> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
   const res = await fetch(`${API_URL}/clients/${id}`, {
     method: "DELETE",
-    credentials: "include",
+     headers: {
+      Cookie: `token=${token}`,
+    },
   });
   
   const result = await res.json(); 
