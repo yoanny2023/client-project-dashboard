@@ -93,11 +93,11 @@ export async function updateProject(
 export async function deleteProject(clientId: string,projectId: string):Promise<DeleteProjectResponse> {
   
    const token = await getToken();
-   
+
   onst res = await fetch(`${API_URL}/clients/${clientId}/projects/${projectId}`,{
       method: "DELETE",
       headers:{
-        Cookie: `token=${token}`,
+        Cookie: `token=${token}`,  
       }
     }
   );
