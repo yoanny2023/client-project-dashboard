@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { CreateClientResponse } from "@/types/Client/CreateClientResponse";
 import { DeleteClientResponse } from "@/types/Client/DeleteClientResponse";
@@ -5,9 +7,14 @@ import { UpdateClientResponse } from "@/types/Client/UpdateClientResponse";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://client-project-dashboard.onrender.com";
 
-export async function getClients() {
+async function getToken() {
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  return cookieStore.get("token")?.value;
+}
+
+export async function getClients() {
+
+  const token = await getToken();
 
   const res = await fetch(`${API_URL}/clients`, {
     headers: {
@@ -21,8 +28,8 @@ export async function getClients() {
 }
 
 export async function getClientById(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+
+  const token = await getToken();
 
   const res = await fetch(`${API_URL}/clients/${id}`, {
       headers: {
@@ -39,8 +46,8 @@ export async function createClient(data: {
   name: string;
   email: string;
 }): Promise<CreateClientResponse> {
-   const cookieStore = await cookies();
-   const token = cookieStore.get("token")?.value;
+
+   const token = await getToken();
 
   const res = await fetch(`${API_URL}/clients`, {
     method: "POST",
@@ -61,8 +68,8 @@ export async function updateClient(
   id: string,
   data: { name: string; email: string }
 ):Promise<UpdateClientResponse> {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+
+  const token = await getToken();
   
   const res = await fetch(`${API_URL}/clients/${id}`, {
     method: "PUT",
@@ -79,8 +86,8 @@ export async function updateClient(
 }
 
 export async function deleteClient(id: string):Promise<DeleteClientResponse> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+
+  const token = await getToken();
 
   const res = await fetch(`${API_URL}/clients/${id}`, {
     method: "DELETE",
