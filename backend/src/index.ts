@@ -11,6 +11,7 @@ import { errorHandler } from "./middleware/error.middleware";
 const app = express();   
 const PORT = process.env.PORT || 2000;
 
+app.set("trust proxy", 1);
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cookieParser())
