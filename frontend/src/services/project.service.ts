@@ -20,7 +20,8 @@ export async function getProjectsByClient(clientId:string):Promise<Project[]>{
   const res = await fetch(`${API_URL}/clients/${clientId}/projects`,{
    headers: {
     Cookie: `token=${token}`,
-   }
+   },
+   cache: "no-store",
   });
 
   if(!res.ok) throw new Error("Failed to fetch projects");
@@ -36,7 +37,8 @@ export async function getProjectById(clientId:string,projectId:string):Promise<P
   const res = await fetch(`${API_URL}/clients/${clientId}/projects/${projectId}`,{
      headers: {
       Cookie: `token=${token}`,
-   }
+   },
+   cache: "no-store",
   });
 
   if(!res.ok) throw new Error("Failed to fetch project");
@@ -57,6 +59,7 @@ export async function createProject(
       "Content-Type": "application/json",
        Cookie: `token=${token}`,
     },
+    cache: "no-store",
     body: JSON.stringify(data)
   });
 
@@ -81,6 +84,7 @@ export async function updateProject(
         "Content-Type": "application/json",
          Cookie: `token=${token}`,
        },
+       cache: "no-store",
       body: JSON.stringify(data),
     }
   );
@@ -98,7 +102,8 @@ export async function deleteProject(clientId: string,projectId: string):Promise<
       method: "DELETE",
       headers:{
         Cookie: `token=${token}`,  
-      }
+      },
+      cache: "no-store",
     }
   );
   const result = await res.json() 

@@ -12,7 +12,6 @@ import ProjectModal from "@/components/dashboard/ProjectModal";
 import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
 import { ProjectFormValues } from "@/app/dashboard/schemas/project.schema";
 
-
 export default function ClientProjectsPage() {
   const params = useParams();
   const router = useRouter();

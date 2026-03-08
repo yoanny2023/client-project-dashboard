@@ -20,6 +20,7 @@ export async function getClients() {
     headers: {
     Cookie: `token=${token}`,
     },
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error("Failed to fetch clients");
@@ -35,6 +36,7 @@ export async function getClientById(id: string) {
       headers: {
       Cookie: `token=${token}`,
     },
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error("Failed to fetch client");
@@ -55,6 +57,7 @@ export async function createClient(data: {
       "Content-Type": "application/json",
       Cookie: `token=${token}`,
     },
+    cache: "no-store",
     body: JSON.stringify(data),
   });
    
@@ -77,6 +80,7 @@ export async function updateClient(
       "Content-Type": "application/json",
        Cookie: `token=${token}`,
     },
+    cache: "no-store",
     body: JSON.stringify(data),
   });
 
@@ -94,6 +98,7 @@ export async function deleteClient(id: string):Promise<DeleteClientResponse> {
      headers: {
       Cookie: `token=${token}`,
     },
+    cache: "no-store",
   });
   
   const result = await res.json(); 
