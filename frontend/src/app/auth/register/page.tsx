@@ -5,6 +5,8 @@ import Pagina from '@/components/commom/Pagina'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { IconLock, IconMail, IconUser } from '@tabler/icons-react'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useActionState, useEffect } from 'react'
@@ -24,12 +26,18 @@ function Register() {
   if (state?.user) {
     router.push("/auth/login");
   }
-  },[state?.user])
+  },[state?.user]);
+
+  const tl = gsap.timeline();
+    
+    useGSAP(() => {
+     tl.from(".gsap_form",{x:"-100vw",opacity:0,ease:"back.inOut",duration:1.5});
+  } ,[]);
 
   return (
     <Pagina className="flex items-center justify-center p-3">
       <form action={formAction}
-        className={`w-full max-w-sm rounded-xl border border-white/10 bg-white/5 
+        className={`gsap_form w-full max-w-sm rounded-xl border border-white/10 bg-white/5 
         backdrop-blur-xl p-6 shadow-lg space-y-3 `}>
     
         <h1 className="text-2xl font-semibold text-center">Create Account</h1>
