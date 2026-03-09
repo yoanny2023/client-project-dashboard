@@ -26,11 +26,11 @@ function DashboardLayout({children}:{children: React.ReactNode}){
         <Sidebar onClose={() => setIsOpen(false)} />
       </div>
 
-      <div className="flex-1 flex flex-col w-full lg:ml-64">
+      <div className="flex-1 flex flex-col w-full lg:pl-64">
         <div className="fixed top-0 left-0 lg:left-64 right-0 z-30">
-          <Navbar onMenuClick={() => setIsOpen(true)} />
+          <Navbar onMenuClick={() => setIsOpen(true)} />  
         </div>
-
+  
         <main className="flex-1 px-6 sm:px-13 py-6 pt-20">{children}</main>
       </div>
     </div>
