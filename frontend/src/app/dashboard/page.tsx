@@ -1,12 +1,14 @@
 "use client";
 
-import {useState,useEffect} from "react"
+import {useState,useEffect, useRef} from "react"
 import Skeleton from "@/components/ui/Skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { getClients } from "@/services/client.service";
 import toast from "react-hot-toast";
 import { getProjectsByClient } from "@/services/project.service";
 import Link from "next/link";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 
 function Dashboard() {
@@ -40,19 +42,25 @@ function Dashboard() {
         setLoading(false)
       }
     } 
-
+   
     loadClients();
 
   },[]);
+   
+  useGSAP(() => {
+    const tl = gsap.timeline();
+    tl.from(".header",{y:-40,opacity:0,duration:0.6,ease:"power2.out"})
+    tl.from(".card",{y:30,opacity:0,scale:0.95,duration:1,stagger:0.5,ease:"power2.out"})
+  },[])
 
    if(loading) return <Skeleton className="h-24 w-full" /> 
 
    return (
     <div className="p-6 space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold"> Welcome back, {user?.name} 👋 </h1>
+      <h1 className="header text-xl sm:text-2xl font-bold"> Welcome back, {user?.name} 👋 </h1>
       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">  
-          <Link href="/dashboard/clients" className="cursor-pointer">
+          <Link href="/dashboard/clients" className="card cursor-pointer">
             <div className="bg-white/10 backdrop-blur-xl hover:bg-zinc-950 hover:shadow-indigo-500/50 border border-white/20 rounded-2xl p-6 shadow-lg
             scale-100 hover:scale-105 transition duration-500">
               <h2 className="text-lg font-semibold mb-2"> Total Clients </h2>
@@ -60,7 +68,7 @@ function Dashboard() {
             </div>
           </Link>
 
-        <div className="bg-white/10 backdrop-blur-xl hover:bg-zinc-950 hover:shadow-indigo-500/50 border border-white/20 rounded-2xl p-6 shadow-lg
+        <div className="card bg-white/10 backdrop-blur-xl hover:bg-zinc-950 hover:shadow-indigo-500/50 border border-white/20 rounded-2xl p-6 shadow-lg
           scale-100 hover:scale-105 transition duration-500">
           <h2 className="text-lg font-semibold mb-2"> Total Projects </h2>
           <p className="text-4xl font-bold text-indigo-600"> {projectsCount} </p>

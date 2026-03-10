@@ -9,6 +9,8 @@ import { IconPencil, IconPlus, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link';
 import React,{useState,useEffect} from 'react'
 import toast from 'react-hot-toast';
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
 
 function ClientPage() {
 
@@ -73,18 +75,34 @@ async function handleDelete(id: string) {
   }
 }
 
-if (loading) return <Loading />;
-
   const filteredClients = clients.filter((client) =>
   client.name.toLowerCase().includes(search.toLowerCase())
 );
 
+  useGSAP(() => {
+    if (filteredClients.length === 0) return;
+
+    gsap.set(".page-title",{y:-20,opacity:0})
+    gsap.set(".btn",{x:"100vw",opacity:0})
+    gsap.set(".search-box",{y:-10,opacity:0})
+    gsap.set(".table-container",{y:-20,opacity:0})
+
+    const tl = gsap.timeline();
+
+    tl.to(".page-title",{y:0,opacity:1,duration:0.5})
+    tl.to(".btn",{x:0,opacity:1,ease:"bounce.inOut",duration:1})
+    tl.to(".search-box",{y:0,opacity:1,duration:0.4})
+    tl.to(".table-container",{y:0,opacity:1,duration:0.4})
+  },[filteredClients])
+
+  if (loading) return <Loading />;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Clients</h1>
+        <h1 className="page-title text-2xl font-semibold">Clients</h1>
 
-        <button className="flex gap-1 items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded cursor-pointer transition duration-300"
+        <button className="btn flex gap-1 items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded cursor-pointer transition duration-300"
         onClick={() => {
           setSelectedClient(null);
           setShowModal(true);
@@ -94,14 +112,14 @@ if (loading) return <Loading />;
         </button>
       </div>
 
-      <div className='bg-zinc-800 my-6 rounded-lg border border-zinc-600'>
+      <div className='search-box bg-zinc-800 my-6 rounded-lg border border-zinc-600'>
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)}
         className='w-full px-4 py-2 outline-none focus:outline-none' placeholder='Search by name' />
       </div>
 
-      <div className="bg-zinc-800 border border-zinc-700 rounded-lg overflow-hidden">
+      <div className="table-container bg-zinc-800 border border-zinc-700 rounded-lg overflow-hidden">
         <div className="w-full overflow-x-auto">
-          <table className="min-w-[700px] w-full text-sm">
+          <table className="min-w-175 w-full text-sm">
             <thead className="bg-zinc-700 text-left">
               <tr>
                 <th className="whitespace-nowrap px-3 py-2 md:px-4 md:py-3">Name</th>
