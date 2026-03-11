@@ -25,6 +25,8 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
   });
 
   useEffect(()=>{
+    if (!open) return;
+
     if (currentProject) {
       reset({
         name: currentProject.name,
@@ -36,7 +38,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
       description: "",
     });
   }
-  },[currentProject,open,reset]);
+  },[currentProject,open]);
 
    useGSAP(()=>{
     if(!open) return;
@@ -58,7 +60,6 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
         <form onSubmit={handleSubmit(async (data:ProjectFormValues) => {
           console.log("sumitting:",isSubmitting)
           await onSubmit(data);
-          reset();
           onClose();
         })}
         className="space-y-4"
