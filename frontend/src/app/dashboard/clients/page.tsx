@@ -82,14 +82,14 @@ async function handleDelete(id: string) {
   useGSAP(() => {
 
     gsap.set(".page-title",{y:-20,opacity:0})
-    gsap.set(".btn",{x:"100vw",opacity:0})
+    gsap.set(".btn",{x:300,opacity:0})
     gsap.set(".search-box",{y:-10,opacity:0})
     gsap.set(".table-container",{y:-20,opacity:0})
 
     const tl = gsap.timeline();
 
     tl.to(".page-title",{y:0,opacity:1,duration:1})
-    tl.to(".btn",{x:0,opacity:1,ease:"bounce.inOut",duration:1},"<")
+    tl.to(".btn",{x:0,opacity:1,ease:"linear",duration:1},"<")
     tl.to(".search-box",{y:0,opacity:1,duration:0.5})
     tl.to(".table-container",{y:0,opacity:1,duration:1})
   },[filteredClients])

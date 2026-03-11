@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { ProjectFormValues, projectSchema } from '@/app/dashboard/schemas/project.schema';
 import {useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 interface Props {
   open: boolean;
@@ -36,12 +38,16 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
   }
   },[currentProject,reset]);
 
+      useGSAP(()=>{
+      gsap.from(".modal",{scale:0,opacity:0,ease:"power1.inOut",duration:0.8})
+      },[]);
+
     if (!open) return null;
 
     return (
       <div className="p-3 fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
 
-        <div className="bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 p-6 rounded-2xl w-full max-w-md space-y-4 shadow-xl">
+        <div className="modal bg-zinc-900/90 backdrop-blur-xl border border-zinc-700 p-6 rounded-2xl w-full max-w-md space-y-4 shadow-xl">
 
         <h2 className="text-xl font-bold">
           {currentProject ? "Edit Project" : "Add Project"}

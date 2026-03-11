@@ -8,6 +8,8 @@ import { createClient, updateClient } from '@/services/client.service';
 import toast from 'react-hot-toast';
 import Input from './ui/Input';
  import ErrorInput from './Error'; 
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 type AddClientProps = {
   onClose: () => void;
@@ -77,10 +79,13 @@ function AddClientModal({onClose,onClientSaved,existingClient}:AddClientProps) {
       setLoading(false);
     }
   }
+  useGSAP(()=>{
+  gsap.from(".modal",{scale:0,opacity:0,ease:"power1.inOut",duration:0.8})
+  },[]);
 
   return (
     <div className="px-3 fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-zinc-800 p-6 rounded-lg w-full max-w-md mx-auto">
+      <div className="modal bg-zinc-800 p-6 rounded-lg w-full max-w-md mx-auto">
         <h2 className="text-lg font-semibold mb-4">
           {existingClient ? "Edit Client" : "Add New Client"}
         </h2>
