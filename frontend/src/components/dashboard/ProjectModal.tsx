@@ -38,10 +38,12 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
   }
   },[currentProject,reset]);
 
-      useGSAP(()=>{
-      gsap.from(".modal",{scale:0,opacity:0,ease:"power1.inOut",duration:0.8})
-      },[]);
-
+   useGSAP(()=>{
+    if(!open) return;
+   
+    gsap.from(".modal",{y:40,scale:0.5,opacity:0,ease:"power2.out",duration:0.5})
+  },[open]);
+   
     if (!open) return null;
 
     return (
