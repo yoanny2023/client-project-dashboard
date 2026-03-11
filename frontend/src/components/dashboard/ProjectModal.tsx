@@ -36,7 +36,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
       description: "",
     });
   }
-  },[currentProject,reset]);
+  },[currentProject,open,reset]);
 
    useGSAP(()=>{
     if(!open) return;
