@@ -11,6 +11,8 @@ import { IconArrowBack, IconPencil, IconPlus, IconTrash } from "@tabler/icons-re
 import ProjectModal from "@/components/dashboard/ProjectModal";
 import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
 import { ProjectFormValues } from "@/app/dashboard/schemas/project.schema";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function ClientProjectsPage() {
   const params = useParams();
@@ -105,11 +107,26 @@ export default function ClientProjectsPage() {
     }
 }
 
-  if (loading) return <Loading />
-
   const filteredProjects = projects.filter((project) =>
     project.name.toLowerCase().includes(search.toLowerCase())
 );
+
+ useGSAP(() => {
+
+    gsap.set(".page-title",{y:-20,opacity:0})
+    gsap.set(".btn",{x:300,opacity:0})
+    gsap.set(".search-box",{y:-10,opacity:0})
+    gsap.set(".table-container",{y:-20,opacity:0})
+
+    const tl = gsap.timeline();
+
+    tl.to(".page-title",{y:0,opacity:1,duration:1})
+    tl.to(".btn",{x:0,opacity:1,ease:"linear",duration:1},"<")
+    tl.to(".search-box",{y:0,opacity:1,duration:0.5})
+    tl.to(".table-container",{y:0,opacity:1,duration:1})
+  },[filteredProjects]);
+
+  if (loading) return <Loading />
 
   return (
     <div className="space-y-6">
@@ -119,17 +136,17 @@ export default function ClientProjectsPage() {
             Back
       </button>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Projects</h1>
+        <h1 className="page-title text-2xl font-bold">Projects</h1>
         <button onClick={() => {
             setSelectedProject(null);
             setIsModalOpen(true);  
           }}
-          className="flex gap-1 items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer px-4 py-2 rounded transition duration-300">
+          className="btn flex gap-1 items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer px-4 py-2 rounded transition duration-300">
           <IconPlus stroke={2} size={18} /> Project
         </button>
       </div>
 
-      <div className='bg-zinc-800 my-6 rounded-lg border border-zinc-600'>
+      <div className='search-box bg-zinc-800 my-6 rounded-lg border border-zinc-600'>
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)}
         className='w-full px-4 py-2 outline-none focus:outline-none' placeholder='Search by name' />
       </div>
@@ -138,7 +155,7 @@ export default function ClientProjectsPage() {
         <p>No projects yet.</p>
       ) : (
       <div className="overflow-x-auto">
-        <table className="min-w-[750px] w-full bg-zinc-800 rounded-lg">
+        <table className="table-container min-w-[750px] w-full bg-zinc-800 rounded-lg">
           <thead className="bg-zinc-700">
             <tr>
               <th className="px-3 py-3 md:px-6 md:py-3 text-left whitespace-nowrap">Name</th>

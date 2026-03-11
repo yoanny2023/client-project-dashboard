@@ -9,6 +9,8 @@ import { IconArrowBack } from "@tabler/icons-react";
 import { getClientById } from "@/services/client.service";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function ClientDetailsPage() {
   const { id } = useParams();
@@ -35,6 +37,16 @@ export default function ClientDetailsPage() {
     loadClient();
   }, [id]);
 
+  useGSAP(()=>{
+    if(!client) return;
+
+    const tl = gsap.timeline();
+
+    tl.from(".header",{y:-40,opacity:0,ease:"power1.out",duration:0.6})
+    tl.from(".table-container",{y:40,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.6},"<0.2")
+    tl.from(".link",{y:20,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.4},"<0.2")
+  },[client])
+   
   if (loading) return <Loading />
 
   if (!client) return <p className="p-6">Client not found.</p>;
@@ -49,33 +61,33 @@ export default function ClientDetailsPage() {
         Back
       </button>
 
-      <h1 className="text-2xl font-bold mb-4">Client Details</h1>
+      <h1 className="header text-2xl font-bold mb-4">Client Details</h1>
 
       <div className="overflow-x-auto">
-        <table className="min-w-[650px] w-full bg-zinc-800 rounded-lg">
+        <table className="table-container min-w-[650px] w-full bg-zinc-800 rounded-lg">
           <tbody className="divide-y divide-zinc-700">
 
-            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">ID</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.id}</td>
             </tr>
 
-            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Name</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.name}</td>
             </tr>
 
-            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Email</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.email}</td>
             </tr>
 
-            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Owner ID</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.ownerId}</td>
             </tr>
 
-            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Owner Name</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{user?.name}</td>
             </tr>
@@ -84,10 +96,9 @@ export default function ClientDetailsPage() {
         </table>
       </div>
 
-      <div>
+      <div className="link">
         <Link href={`/dashboard/clients/${client.id}/projects`}
-          className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded cursor-pointer transition duration-300"
-        >
+          className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded cursor-pointer transition duration-300">
           View Projects
         </Link>
       </div>

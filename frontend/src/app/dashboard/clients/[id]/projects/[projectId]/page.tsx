@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { IconArrowBack } from "@tabler/icons-react";
 import Loading from "@/components/commom/Loading";
 import { useAuth } from "@/contexts/AuthContext";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap"
 
 export default function ProjectDetailsPage() {
   const router = useRouter();
@@ -37,6 +39,15 @@ export default function ProjectDetailsPage() {
     loadProject();
   }, [clientId, projectId]);
 
+   useGSAP(()=>{
+      if(!project) return;
+  
+      const tl = gsap.timeline();
+  
+      tl.from(".header",{y:-40,opacity:0,ease:"power1.out",duration:0.6})
+      tl.from(".table-container",{y:40,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.6},"<0.2")
+    },[project])
+
   if (loading) {
     return <Loading />;
   }
@@ -55,12 +66,12 @@ export default function ProjectDetailsPage() {
         Back
       </button>
 
-      <h1 className="text-2xl font-bold">
+      <h1 className="header text-2xl font-bold">
         Project Details
       </h1>
 
       <div className="overflow-x-auto">
-        <table className="min-w-[650px] w-full bg-zinc-800 rounded-lg">
+        <table className="table-container min-w-[650px] w-full bg-zinc-800 rounded-lg">
           <tbody className="divide-y divide-zinc-700">
 
             <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
