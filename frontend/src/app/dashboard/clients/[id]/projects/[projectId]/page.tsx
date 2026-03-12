@@ -41,11 +41,14 @@ export default function ProjectDetailsPage() {
 
    useGSAP(()=>{
       if(!project) return;
-  
+
+      gsap.set(".header",{y:-40,opacity:0});
+      gsap.set(".table-container",{y:40,opacity:0,scale:0.3});
+
       const tl = gsap.timeline();
   
-      tl.from(".header",{y:-40,opacity:0,ease:"power1.out",duration:0.6})
-      tl.from(".table-container",{y:40,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.6},"<0.2")
+      tl.to(".header",{y:0,opacity:1,ease:"power1.out",duration:0.6})
+      tl.to(".table-container",{y:0,opacity:1,scale:1,ease:"power3.inOut",duration:0.6},"<0.2")
     },[project])
 
   if (loading) {

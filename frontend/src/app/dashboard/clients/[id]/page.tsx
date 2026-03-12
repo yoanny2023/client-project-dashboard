@@ -40,11 +40,15 @@ export default function ClientDetailsPage() {
   useGSAP(()=>{
     if(!client) return;
 
+     gsap.set(".header",{y:-40,opacity:0});
+     gsap.set(".table-container",{y:40,opacity:0,scale:0.3});
+     gsap.set(".link",{y:20,opacity:0,scale:0.3});
+
     const tl = gsap.timeline();
 
-    tl.from(".header",{y:-40,opacity:0,ease:"power1.out",duration:0.6})
-    tl.from(".table-container",{y:40,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.6},"<0.2")
-    tl.from(".link",{y:20,opacity:0,scale:0.3,ease:"power3.inOut",duration:0.4},"<0.2")
+    tl.to(".header",{y:0,opacity:1,ease:"power1.out",duration:0.6})
+    tl.to(".table-container",{y:0,opacity:1,scale:1,ease:"power3.inOut",duration:0.6},"<0.2")
+    tl.to(".link",{y:0,opacity:1,scale:1,ease:"power3.inOut",duration:0.6})
   },[client])
    
   if (loading) return <Loading />
@@ -67,27 +71,27 @@ export default function ClientDetailsPage() {
         <table className="table-container min-w-[650px] w-full bg-zinc-800 rounded-lg">
           <tbody className="divide-y divide-zinc-700">
 
-            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">ID</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.id}</td>
             </tr>
 
-            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Name</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.name}</td>
             </tr>
 
-            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Email</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.email}</td>
             </tr>
 
-            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Owner ID</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{client.ownerId}</td>
             </tr>
 
-            <tr className="table-row text-zinc-300 hover:bg-zinc-950 transition duration-500">
+            <tr className="text-zinc-300 hover:bg-zinc-950 transition duration-500">
               <td className="px-3 py-3 md:px-6 md:py-4 font-semibold">Owner Name</td>
               <td className="px-3 py-3 md:px-6 md:py-4 break-words">{user?.name}</td>
             </tr>
