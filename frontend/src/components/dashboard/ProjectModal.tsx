@@ -27,11 +27,18 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
   useEffect(()=>{
     if (!open) return;
 
-    reset({
-      name: currentProject?.name ?? "",
-      description: currentProject?.description ?? "",
-    });
-  },[open,currentProject,reset]);
+    if (currentProject) {
+      reset({
+        name: currentProject.name,
+        description: currentProject.description || "",
+      });
+    } else {
+      reset({
+        name: "",
+        description: "",
+      });
+    } 
+  },[open]);
 
    useGSAP(()=>{
     if(!open) return;
