@@ -25,8 +25,6 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
   });
 
   useEffect(()=>{
-    if (!open) return;
-
     if (currentProject) {
       reset({
         name: currentProject.name,
@@ -38,7 +36,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
       description: "",
     });
   }
-  },[currentProject,open]);
+  },[currentProject,reset]);
 
    useGSAP(()=>{
     if(!open) return;
@@ -91,7 +89,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
             </div>
          
             <div className="flex justify-end gap-4">
-              <button type='reset'
+              <button type='button'
                 className='bg-zinc-600 text-zinc-300 px-4 py-2 rounded-md cursor-pointer' 
                 disabled={isSubmitting}
                 onClick={onClose}
@@ -117,11 +115,3 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
 
 export default ProjectModal
 
-  /*   <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md cursor-pointer transition duration-300" 
-              onClick={() => {
-                onSubmit({ name, description });
-                onClose();
-              }}
-            >
-              Save
-            </button> */
