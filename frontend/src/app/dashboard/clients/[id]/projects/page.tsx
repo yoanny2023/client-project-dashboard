@@ -200,6 +200,7 @@ export default function ClientProjectsPage() {
       )}
 
       <ProjectModal
+        key={selectedProject?.id ?? "new"}
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={selectedProject ? handleUpdate : handleCreate}

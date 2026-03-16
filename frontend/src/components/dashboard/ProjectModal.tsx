@@ -16,15 +16,15 @@ interface Props {
 
 function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
 
-  const {register,handleSubmit,reset,formState: { errors,isSubmitting }} = useForm<ProjectFormValues>({
+  const {register,handleSubmit,formState: { errors,isSubmitting }} = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: currentProject?.name ?? "",
+      description: currentProject?.description ?? "",
     },
   });
 
-  useEffect(()=>{
+  /* useEffect(()=>{
     if (!open) return;
 
     if (currentProject) {
@@ -38,7 +38,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
         description: "",
       });
     } 
-  },[open]);
+  },[open]); */
 
    useGSAP(()=>{
     if(!open) return;
@@ -62,7 +62,7 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
           await onSubmit(data);
           onClose();
         })}
-        className="space-y-4"
+        className="space-y-4"  
         >
             <div>
               <input
