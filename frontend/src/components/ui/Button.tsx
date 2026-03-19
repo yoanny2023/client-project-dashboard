@@ -1,20 +1,22 @@
 import React from 'react'
+import { useFormStatus } from "react-dom";
 
 type ButtonProps = React.ComponentProps<"button"> & {
-isPending?: boolean
 loading?: string,
 label:string
 }
 
-function Button({isPending,label,...props}: ButtonProps) {
+function Button({label,loading,...props}: ButtonProps) {
+  const{pending} = useFormStatus();
+
   return (
     <button
       type="submit"
-      disabled={isPending}
       {...props}
-      className="w-full py-2 rounded bg-indigo-600 hover:bg-indigo-500 hover:cursor-pointer disabled:opacity-50 transition duration-300"
+      disabled={pending}
+      className="w-full py-2 rounded bg-indigo-600 hover:bg-indigo-500 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition duration-300"
     >
-      {isPending ? props.loading :label} 
+      {pending ? loading :label} 
     </button>
   )
 }

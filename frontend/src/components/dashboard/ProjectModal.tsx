@@ -15,8 +15,9 @@ interface Props {
 }
 
 function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
+  const [loading, setLoading] = React.useState(false);
 
-  const {register,handleSubmit,formState: { errors,isSubmitting }} = useForm<ProjectFormValues>({
+  const {register,handleSubmit,reset,formState: { errors }} = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: currentProject?.name ?? "",
@@ -24,21 +25,14 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
     },
   });
 
-  /* useEffect(()=>{
-    if (!open) return;
-
-    if (currentProject) {
-      reset({
-        name: currentProject.name,
-        description: currentProject.description || "",
-      });
-    } else {
-      reset({
-        name: "",
-        description: "",
-      });
-    } 
-  },[open]); */
+  useEffect(() => {
+  if (open) {
+    reset({
+      name: currentProject?.name ?? "",
+      description: currentProject?.description ?? "",
+    });
+  }
+}, [open, currentProject, reset]);
 
    useGSAP(()=>{
     if(!open) return;
@@ -58,12 +52,18 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
         </h2>
 
         <form onSubmit={handleSubmit(async (data:ProjectFormValues) => {
-          console.log("sumitting:",isSubmitting)
-          await onSubmit(data);
-          onClose();
-        })}
+         if (loading) return;
+
+         setLoading(true);
+         try {
+           await onSubmit(data);
+           onClose();
+         } finally {
+           setLoading(false);  
+         }
+       })}
         className="space-y-4"  
-        >
+      >
             <div>
               <input
                 {...register("name")}
@@ -93,20 +93,20 @@ function ProjectModal({open,onClose,onSubmit,currentProject}: Props) {
             <div className="flex justify-end gap-4">
               <button type='button'
                 className='bg-zinc-600 text-zinc-300 px-4 py-2 rounded-md cursor-pointer' 
-                disabled={isSubmitting}
+                disabled={loading}
                 onClick={onClose}
                 >
                   Cancel
               </button>
               <button
-                disabled={isSubmitting}
+                disabled={loading}
                 className={`text-white px-4 py-2 rounded-md cursor-pointer transition duration-300
-                  ${isSubmitting
-                  ? "bg-indigo-400 cursor-not-allowed"
+                  ${loading
+                  ? "bg-indigo-400 disabled:cursor-not-allowed"
                   : "bg-indigo-600 hover:bg-indigo-700"
                 }  
                 `}>
-                {isSubmitting ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
         </form>

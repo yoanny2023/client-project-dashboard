@@ -19,7 +19,7 @@ const initialState = {
 };
 
 function Register() {
-  const[state,formAction,isPending] = useActionState(registerAction,initialState);
+  const[state,formAction] = useActionState(registerAction,initialState);
   const router = useRouter();
 
   useEffect(()=>{
@@ -54,7 +54,7 @@ function Register() {
             Account created successfully.
           </p>
         )}
-        <Button label='Register' loading="Signing up..." isPending={isPending} />
+        <Button label='Register' loading="Signing up..." />
         <p className="text-center text-sm text-zinc-400 mt-4">
             Already have an account?{" "}
             <Link  

@@ -24,7 +24,7 @@ const initialState = {
  
 function Login() {
 
-  const[state,formAction,isPending] = useActionState(loginAction,initialState);
+  const[state,formAction] = useActionState(loginAction,initialState);
   const{setUser} = useAuth();
   const router = useRouter();
   
@@ -67,7 +67,7 @@ function Login() {
         {state?.error && (
           <p className="text-sm text-red-400 text-center">{state.error}</p>
         )}
-        <Button label='Login' loading="Logging in..." isPending={isPending} />
+        <Button label='Login' loading="Logging in..." />
         <p className="text-center text-sm text-zinc-400 mt-4">
             Don’t have an account yet?{" "}
             <Link  

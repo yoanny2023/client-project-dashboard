@@ -7,7 +7,8 @@ import { z } from "zod";
 import { createClient, updateClient } from '@/services/client.service';
 import toast from 'react-hot-toast';
 import Input from './ui/Input';
- import ErrorInput from './Error'; 
+import ErrorInput from './Error'; 
+import {useFormStatus} from "react-dom";
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -36,6 +37,7 @@ function AddClientModal({onClose,onClientSaved,existingClient}:AddClientProps) {
   },[existingClient])
 
   async function handleSubmit(e:any){
+    if (loading) return;
     e.preventDefault();
 
    const result = clientSchema.safeParse({ name, email }); 
@@ -110,7 +112,7 @@ function AddClientModal({onClose,onClientSaved,existingClient}:AddClientProps) {
             <button
               type="submit"
               disabled={loading}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded cursor-pointer transition duration-300"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded cursor-pointer disabled:cursor-not-allowed transition duration-300"
             >
               {loading
                 ? "Saving..."
